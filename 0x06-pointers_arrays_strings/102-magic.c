@@ -2,11 +2,10 @@
 /**
 *main-main function
 *
-*Return:0
+* Return:0
 */
 int main(void)
 {
-
 int n;
 int a[5];
 int *p;
