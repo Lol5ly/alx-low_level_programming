@@ -23,15 +23,15 @@ v++;
 }
 return (v);
 /**
-* **strtow - splits a string into words
+* strtow - splits a string into words
 * @str: string to split
 *
 * Return: pointer to an array of strings (Success)
 * or NULL (Error)
 */
-char **strtow(char *str)
+char *strtow(char *str)
 {
-char **matrix, *tmp;
+char *matrix, *tmp;
 int i, l = 0, len = 0, words, c = 0, start, end;
 while (*(str + len))
 len++;
