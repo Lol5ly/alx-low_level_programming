@@ -5,24 +5,22 @@
 /**
  * add_node - adds a new node at the beginning of the list
  * @head: the pointer to the list_t list
- * @str: new str to add in node
+ * @str: new string  in node
  *
  * Return: adding the new element, new node
  */
-list_t *new_node(list_t **head, const char *str)
+list_t *add_node(list_t **head, const char *str)
 {
- list_t *new_node;
- unsigned int l = 0;
-
- while (str[l])
- l++;
-
- new_node = malloc(sizeof(list_t));
- if (!new_node)
- return (NULL);
-
- new_node->str = strdup(str);
- new_node->next = (*head);
- *head = new_node;
-return (new_node);
+list_t *node;
+unsigned int len = 0;
+while (str[len])
+len++;
+node = malloc(sizeof(list_t));
+if (!node)
+return (NULL);
+node->str = strdup(str);
+node->len = len;
+node->next = (*head);
+(*head) = node;
+return (*head);
 }
