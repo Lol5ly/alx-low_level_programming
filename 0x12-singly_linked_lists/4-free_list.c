@@ -3,7 +3,7 @@
 
 /**
  * free_list - frees  nodes of a list
- * @head: list to be freed 
+ * @head: list to be freed
  * Return: freesing nodes of list
  */
 void free_list(list_t *head)
