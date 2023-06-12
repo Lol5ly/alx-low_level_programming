@@ -112,9 +112,9 @@ void print_data(unsigned char *e_ident)
 }
 
 /**
-* print_version - Prints the version of an ELF header.
-* @e_ident: A pointer to an array containing the ELF version.
-*/
+ *  * print_version - Prints the version of an ELF header.
+ *   * @e_ident: A pointer to an array containing the ELF version.
+ *    */
 void print_version(unsigned char *e_ident)
 {
 	 printf(" Version: %d",
@@ -180,7 +180,7 @@ void print_osabi(unsigned char *e_ident)
  * print_abi - Prints the ABI version of an ELF header.
  * @e_ident: A pointer to an array containing the ELF ABI version.
  */
-void print(char *e_ident)
+void print_abi(unsigned char *e_ident)
 {
 	printf(" ABI Version: %d\n",
 		e_ident[EI_ABIVERSION]);
@@ -244,17 +244,17 @@ void print_entry(unsigned long int e_entry, unsigned char *e_ident)
 }
 
 /**
- * close_elf - Closes ELF file.
- * @f: The file descriptor
+ * close_elf - Closes an ELF file.
+ * @elf: The file descriptor of the ELF file.
  *
  * Description: If the file cannot be closed - exit code 98.
  */
-void close_elf(int f)
+void close_elf(int elf)
 {
-	if (close(f) == -1)
+	if (close(elf) == -1)
 	{
 		dprintf(STDERR_FILENO,
-			"Error: Can't close fd %d\n", f);
+			"Error: Can't close fd %d\n", elf);
 		exit(98);
 	}
 }
@@ -262,10 +262,10 @@ void close_elf(int f)
 /**
  * main - Displays the information contained in the
  * ELF header at the start of an ELF file.
- * @argc: The number of arguments.
- * @argv: pointers to the arguments.
+ * @argc: The number of arguments supplied to the program.
+ * @argv: An array of pointers to the arguments.
  *
- * Return: 0 if succeeded.
+ * Return: 0 on success.
  *
  * Description: If the file is not an ELF File or
  * the function fails - exit code 98.
@@ -273,10 +273,10 @@ void close_elf(int f)
 int main(int __attribute__((__unused__)) argc, char *argv[])
 {
 	Elf64_Ehdr *header;
-	int w, x;
+	int o, r;
 
-	w = open(argv[1], O_RDONLY);
-	if (w == -1)
+	o = open(argv[1], O_RDONLY);
+	if (o == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
@@ -284,15 +284,15 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
 	{
-		close_elf(w);
+		close_elf(o);
 		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
 	}
-	x = read(w, header, sizeof(Elf64_Ehdr));
-	if (x == -1)
+	r = read(o, header, sizeof(Elf64_Ehdr));
+	if (r == -1)
 	{
 		free(header);
-		close_elf(w);
+		close_elf(o);
 		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
 		exit(98);
 	}
@@ -309,6 +309,7 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 	print_entry(header->e_entry, header->e_ident);
 
 	free(header);
-	close_elf(w);
+	close_elf(o);
 	return (0);
 }
+
